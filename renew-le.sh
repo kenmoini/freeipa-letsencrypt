@@ -1,9 +1,8 @@
 #!/usr/bin/bash
 set -o nounset -o errexit
 
-WORKDIR="/root/ipa-le"
-EMAIL=""
-#cd "$WORKDIR"
+WORKDIR="/opt/freeipa-letsencrypt"
+EMAIL="ken@kenmoini.com"
 
 ### cron
 # check that the cert will last at least 2 days from now to prevent too frequent renewal
@@ -26,7 +25,7 @@ certutil -R -d /etc/httpd/alias/ -k Server-Cert -f /etc/httpd/alias/pwdfile.txt 
 service httpd stop
 
 # get a new cert
-letsencrypt certonly --standalone --csr "$WORKDIR/httpd-csr.der" --email "$EMAIL" --agree-tos
+letsencrypt certonly --standalone --csr "$WORKDIR/httpd-csr.der" --m "$EMAIL" --agree-tos --non-interactive
 
 # remove old cert
 certutil -D -d /etc/httpd/alias/ -n Server-Cert
