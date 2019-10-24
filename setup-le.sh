@@ -1,9 +1,11 @@
 #!/usr/bin/bash
 set -o nounset -o errexit
 
-WORKDIR="/root/ipa-le"
+WORKDIR="/opt/freeipa-letsencrypt"
 
-dnf install letsencrypt -y
+curl -O https://dl.eff.org/certbot-auto && \
+  mv certbot-auto /sbin/certbot && \
+  chmod +x /sbin/certbot
 
 ipa-cacert-manage install "$WORKDIR/ca/DSTRootCAX3.pem" -n DSTRootCAX3 -t C,,
 ipa-certupdate -v
